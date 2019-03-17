@@ -6,6 +6,7 @@
 package contador_palabras;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class contador {
     String[] contador_P(String frases){

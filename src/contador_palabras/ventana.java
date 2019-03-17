@@ -39,6 +39,8 @@ public class ventana extends javax.swing.JFrame {
         btnEnviar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtList = new javax.swing.JList<>();
+        CheckOrdenar = new javax.swing.JCheckBox();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -70,6 +72,20 @@ public class ventana extends javax.swing.JFrame {
         txtList.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jScrollPane1.setViewportView(txtList);
 
+        CheckOrdenar.setText("Ordenar");
+        CheckOrdenar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CheckOrdenarActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Limpiar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -83,10 +99,17 @@ public class ventana extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(rbtnLetras))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(rbtnLetras)
+                                .addGap(18, 18, 18)
+                                .addComponent(CheckOrdenar)))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 370, Short.MAX_VALUE))
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(95, 95, 95)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -96,12 +119,15 @@ public class ventana extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(rbtnPalabras)
-                    .addComponent(rbtnLetras))
+                    .addComponent(rbtnLetras)
+                    .addComponent(CheckOrdenar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnEnviar, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
-                .addGap(38, 38, 38))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -117,20 +143,45 @@ public class ventana extends javax.swing.JFrame {
 
     private void btnEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEnviarActionPerformed
         contador obj = new contador();
+        validacion obj2 = new validacion();
         if(rbtnPalabras.isSelected()){
             String[] Palabras_C = obj.contador_P(txtString.getText());
-            for(String a : Palabras_C){
-                listModel.addElement(a);
+            if(CheckOrdenar.isSelected()){
+                ArrayList<String> Palabras_O = obj2.ordenar(Palabras_C);
+                for(String a : Palabras_O){
+                    listModel.addElement(a);
+                }
+            }
+            else{
+                for(String a : Palabras_C){
+                    listModel.addElement(a);
+                }
             }
         }
         if(rbtnLetras.isSelected()){
             ArrayList<Character> Letras_C = obj.contador_L(txtString.getText());
-            for(Character a : Letras_C){
-                listModel.addElement(a);
+            if(CheckOrdenar.isSelected()){
+                ArrayList<Character> Letras_Ordenadas = obj2.ordenar_L(Letras_C);
+                for(Character a : Letras_Ordenadas){
+                    listModel.addElement(a);
+                }
+            }
+            else{
+                for(Character a : Letras_C){
+                    listModel.addElement(a);
+                }
             }
         }
         txtList.setModel(listModel);
     }//GEN-LAST:event_btnEnviarActionPerformed
+
+    private void CheckOrdenarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CheckOrdenarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CheckOrdenarActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        listModel.removeAllElements();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -168,8 +219,10 @@ public class ventana extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox CheckOrdenar;
     private javax.swing.ButtonGroup Letras_Palabras;
     private javax.swing.JButton btnEnviar;
+    private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JRadioButton rbtnLetras;
     private javax.swing.JRadioButton rbtnPalabras;
